@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Uni_Lost — Proje Raporu
 
 **Ders:** Web Programlama
@@ -121,3 +122,46 @@ Burada projenin zayıf yönlerini açıkça söylemek, savunmada güçlü bir tu
 ## 10. Sonuç
 
 Uni_Lost, üç kişilik bir ekibin sınırlı sürede çalışan, savunulabilir ve gerçek bir probleme çözüm üreten bir web uygulaması teslim etmesinin somut bir örneğidir. BaaS yaklaşımıyla altyapı maliyeti minimize edilmiş, ekip uygulama mantığına odaklanmıştır.
+=======
+# Uni_Lost — Project Report
+
+## Group Members
+- Ahmet Bilgin — Student No: 230709086
+- Muhammed Türker Akarsu — Student No: 230709084
+
+## Project Topic and Purpose
+Uni_Lost is a web application that centralizes lost and found items within a university setting. Its goal is to turn scattered social media posts into structured listings and speed up item–owner matching.
+
+## Target Users
+University students, academic/administrative staff, and campus visitors. The admin role is assigned to authorized users who manage listings and users.
+
+## Core Features
+- Sign up/sign in and role-based access (user/admin).
+- Create lost/found listings with images.
+- Search, filter, and sort listings.
+- "This is mine" claim flow: the owner approves/rejects; approval marks the item as "resolved".
+- Admin panel: manage listings, claims, users, and roles.
+- Smart matching: Jaccard similarity over title/description/location for possible matches.
+
+## Technologies Used
+- HTML5, CSS3, Vanilla JS
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Storage
+
+## Database Structure
+- `users`: `email`, `displayName`, `role`, `createdAt`
+- `items`: `title`, `description`, `category`, `location`, `date`, `status`, `imageUrl`, `userId`, `userEmail`
+- `claims`: `itemId`, `claimantId`, `claimantEmail`, `message`, `status`, `createdAt`
+
+## Unique Features
+- Verified ownership flow through structured claims.
+- Automatic potential match list using text similarity.
+
+## AI Usage
+AI tools were used as a consultant for UI adjustments and text/flow suggestions; all outputs were reviewed and adapted by the team.
+
+## Team Contributions
+- Ahmet Bilgin: Firebase Authentication integration, admin panel features, user role management.
+- Muhammed Türker Akarsu: UI/CSS work, listing CRUD flow, smart matching display.
+>>>>>>> a09056f (Initial commit)

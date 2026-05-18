@@ -1,81 +1,81 @@
-# Bireysel Katkı Beyanı
+# Bireysel Katki Beyani
 
-**Proje:** Uni_Lost — Kayıp & Buluntu Eşya Platformu
-**Ders:** Web Programlama, 2026 Bahar
-**Teslim Tarihi:** 18.05.2026
+Proje: Uni_Lost — Kayip & Buluntu Esya Platformu
+Ders: Web Programlama, 2026 Bahar
+Teslim Tarihi: 18.05.2026
 
-Bu belge, her grup üyesinin projeye somut katkısını belirtir. Şartname gereği her üye sunumda kendi yaptığı kısmı açıklayabilmelidir.
-
----
-
-## [İsim 1] — [Öğrenci No]
-
-**Sorumlu olunan modüller:**
-- [örn. `js/auth.js` — kullanıcı kayıt, giriş, çıkış, rol kontrolü]
-- [örn. `pages/admin.html` ve `js/admin.js` — admin paneli]
-- [örn. Firestore Security Rules tasarımı]
-
-**Yapılan iş kalemleri:**
-- [...]
-- [...]
-
-**Açıklayabildiği teknik kararlar:**
-- [örn. Neden Firebase Authentication seçildi]
-- [örn. Admin rolünün Firestore'da nasıl saklandığı ve kontrol edildiği]
+Bu belge, her grup uyesinin projeye somut katkisini belirtir. Sartname geregi her uye sunumda kendi yaptigi kismi aciklayabilmelidir.
 
 ---
 
-## [İsim 2] — [Öğrenci No]
+## [Isim 1] — [Ogrenci No]
 
-**Sorumlu olunan modüller:**
-- [örn. `js/items.js` — ilan CRUD, talep sistemi]
-- [örn. `pages/add.html`, `pages/detail.html` — ilan ekleme ve detay arayüzü]
-- [örn. Firebase Storage entegrasyonu]
+Sorumlu olunan moduller:
+- [orn. js/auth.js — kullanici kayit, giris, cikis, rol kontrolu]
+- [orn. pages/admin.html ve js/admin.js — admin paneli]
+- [orn. Firestore Security Rules tasarimi]
 
-**Yapılan iş kalemleri:**
+Yapilan is kalemleri:
 - [...]
 - [...]
 
-**Açıklayabildiği teknik kararlar:**
-- [örn. Talep akışının state machine olarak modellenmesi]
-- [örn. Fotoğraf yükleme boyut sınırı]
+Aciklayabildigi teknik kararlar:
+- [orn. Neden Firebase Authentication secildi]
+- [orn. Admin rolunun Firestore'da nasil saklandigi ve kontrol edildigi]
 
 ---
 
-## [İsim 3] — [Öğrenci No]
+## [Isim 2] — [Ogrenci No]
 
-**Sorumlu olunan modüller:**
-- [örn. `css/style.css` — tüm stiller, responsive tasarım]
-- [örn. `js/search.js` — arama, filtreleme, sıralama]
-- [örn. `index.html` — ana sayfa ve giriş/kayıt modali]
+Sorumlu olunan moduller:
+- [orn. js/items.js — ilan CRUD, talep sistemi]
+- [orn. pages/add.html, pages/detail.html — ilan ekleme ve detay arayuzu]
+- [orn. Firebase Storage entegrasyonu]
 
-**Yapılan iş kalemleri:**
+Yapilan is kalemleri:
 - [...]
 - [...]
 
-**Açıklayabildiği teknik kararlar:**
-- [örn. CSS custom property kullanımı]
-- [örn. Client-side arama mantığının seçilme nedeni]
+Aciklayabildigi teknik kararlar:
+- [orn. Talep akisinin state machine olarak modellenmesi]
+- [orn. Fotograf yukleme boyut siniri]
 
 ---
 
-## Ortak Katkılar
+## [Isim 3] — [Ogrenci No]
 
-Aşağıdaki kısımlar üç üye tarafından birlikte yürütülmüştür:
+Sorumlu olunan moduller:
+- [orn. css/style.css — tum stiller, responsive tasarim]
+- [orn. js/search.js — arama, filtreleme, siralama]
+- [orn. index.html — ana sayfa ve giris/kayit modali]
 
-- Genel proje fikri ve veri modeli kararları.
-- Test ve hata ayıklama.
-- Rapor ve sunum hazırlığı.
-- README ve dokümantasyon.
+Yapilan is kalemleri:
+- [...]
+- [...]
+
+Aciklayabildigi teknik kararlar:
+- [orn. CSS custom property kullanimi]
+- [orn. Client-side arama mantiginin secilme nedeni]
 
 ---
 
-## İmzalar
+## Ortak Katkilar
 
-Aşağıdaki imzalar, yukarıdaki katkı beyanının doğru olduğunu ve her üyenin kendi kısmını sunumda açıklayabileceğini onaylar.
+Asagidaki kisimlar uc uye tarafindan birlikte yurutulmustur:
 
-| Üye | İmza | Tarih |
+- Genel proje fikri ve veri modeli kararlar.
+- Test ve hata ayiklama.
+- Rapor ve sunum hazirligi.
+- README ve dokumantasyon.
+
+---
+
+## Imzalar
+
+Asagidaki imzalar, yukaridaki katki beyaninin dogru oldugunu ve her uyenin kendi kismini sunumda aciklayabilecegini onaylar.
+
+| Uye | Imza | Tarih |
 |-----|------|-------|
-| [İsim 1] |  | 18.05.2026 |
-| [İsim 2] |  | 18.05.2026 |
-| [İsim 3] |  | 18.05.2026 |
+| [Isim 1] |  | 18.05.2026 |
+| [Isim 2] |  | 18.05.2026 |
+| [Isim 3] |  | 18.05.2026 |
