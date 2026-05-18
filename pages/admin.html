@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Paneli — Kayıp & Buluntu</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .admin-header {
+      background: linear-gradient(135deg, #eef3ff 0%, #f0eef9 100%);
+      color: var(--text);
+      padding: 32px 24px;
+      margin-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-header h1 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .admin-header p { opacity: .7; font-size: .9rem; }
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: block;
+    }
+    .stat-label { font-size: .8rem; color: var(--text-muted); margin-top: 4px; }
+    .admin-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .admin-panel-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .admin-panel-body { padding: 0; overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="../index.html">UniLost</a>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="list.html">İlanlar</a></li>
+      <li><a href="admin.html" id="adminBtn" style="display:none">Admin</a></li>
+      <li><span id="userInfo"></span></li>
+      <li><a href="../index.html" id="loginBtn" style="display:none">Giriş Yap</a></li>
+      <li><a href="../index.html" id="registerBtn" style="display:none">Kayıt Ol</a></li>
+      <li><button id="logoutBtn" style="display:none" class="btn btn-secondary">Çıkış Yap</button></li>
+      <li id="addItemBtn" style="display:none"></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ADMIN HEADER -->
+<div class="admin-header">
+  <div class="container">
+    <h1>Admin Paneli</h1>
+    <p>Tüm ilanları, talepleri ve kullanıcıları yönetin.</p>
+  </div>
+</div>
+
+<div class="page-content" style="padding-top:0">
+
+  <!-- Yükleniyor -->
+  <div id="loadingIndicator"><div class="spinner"></div></div>
+
+  <!-- Admin içeriği -->
+  <div id="adminContent" style="display:none">
+
+    <!-- İstatistik Kartları -->
+    <div class="stat-cards">
+      <div class="stat-card">
+        <span class="stat-number" id="statItems">-</span>
+        <div class="stat-label">Toplam İlan</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statClaims">-</span>
+        <div class="stat-label">Toplam Talep</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statUsers">-</span>
+        <div class="stat-label">Kayıtlı Kullanıcı</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statResolved">-</span>
+        <div class="stat-label">Çözülen İlan</div>
+      </div>
+    </div>
+
+    <!-- Sekmeler -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="itemsTab">İlanlar</button>
+      <button class="tab-btn" data-tab="claimsTab">Talepler</button>
+      <button class="tab-btn" data-tab="usersTab">Kullanıcılar</button>
+    </div>
+
+    <!-- İlanlar Paneli -->
+    <div class="tab-panel active" id="itemsTab">
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.1rem">Tüm İlanlar</h2>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-secondary btn-sm" id="seedDemoBtn" onclick="handleSeedDemo(this)">Demo ilan ekle</button>
+              <button class="btn btn-danger btn-sm" id="resetDemoBtn" onclick="handleResetDemo(this)">İlanları sıfırla</button>
+            </div>
+          </div>
+        </div>
+        <div class="admin-panel-body">
+          <div id="adminItemsList" style="padding:16px"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Talepler Paneli -->
+    <div class="tab-panel" id="claimsTab">
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.1rem">Tüm Talepler</h2>
+        </div>
+        <div class="admin-panel-body">
+          <div id="adminClaimsList" style="padding:16px"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kullanıcılar Paneli -->
+    <div class="tab-panel" id="usersTab">
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.1rem">Kayıtlı Kullanıcılar</h2>
+        </div>
+        <div class="admin-panel-body">
+          <div id="adminUsersList" style="padding:16px"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <strong>Kayıp &amp; Buluntu</strong> &copy; 2024
+</footer>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script src="../js/items.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+
+<script>
+  // İstatistikleri yükle
+  async function loadStats() {
+    try {
+      const [itemsSnap, claimsSnap, usersSnap, resolvedSnap] = await Promise.all([
+        db.collection("items").get(),
+        db.collection("claims").get(),
+        db.collection("users").get(),
+        db.collection("items").where("status", "==", "çözüldü").get()
+      ]);
+      document.getElementById("statItems").textContent = itemsSnap.size;
+      document.getElementById("statClaims").textContent = claimsSnap.size;
+      document.getElementById("statUsers").textContent = usersSnap.size;
+      document.getElementById("statResolved").textContent = resolvedSnap.size;
+    } catch (error) {
+      console.error("İstatistik yükleme hatası:", error);
+    }
+  }
+
+  // Admin kontrolü tamamlanınca istatistikleri yükle
+  const origLoadAdmin = document.addEventListener;
+  document.addEventListener("DOMContentLoaded", () => {
+    // Admin.js yüklendikten sonra istatistikleri de yükle
+    setTimeout(loadStats, 500);
+    // Loading göstergesini admin.js kaldırıyor
+    document.getElementById("loadingIndicator").style.display = "none";
+  });
+</script>
+</body>
+</html>

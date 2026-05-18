@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İlan Ekle — Kayıp & Buluntu</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="../index.html">UniLost</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="list.html">İlanlar</a></li>
+      <li><a href="add.html" id="addItemBtn" style="display:none" class="btn btn-primary">+ İlan Ekle</a></li>
+      <li><a href="admin.html" id="adminBtn" style="display:none">Admin</a></li>
+      <li><span id="userInfo"></span></li>
+      <li><a href="../index.html" id="loginBtn" style="display:none">Giriş Yap</a></li>
+      <li><a href="../index.html" id="registerBtn" style="display:none">Kayıt Ol</a></li>
+      <li><button id="logoutBtn" style="display:none" class="btn btn-secondary">Çıkış Yap</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- SAYFA İÇERİĞİ -->
+<div class="page-content">
+
+  <!-- Breadcrumb -->
+  <div style="margin-bottom:24px;font-size:.875rem;color:var(--text-muted)">
+    <a href="../index.html">Ana Sayfa</a> › <a href="list.html">İlanlar</a> › <strong style="color:var(--text)">İlan Ekle</strong>
+  </div>
+
+  <div class="form-card">
+    <h1 class="form-title">Yeni İlan Ekle</h1>
+    <p class="form-subtitle">Kaybettiğiniz veya bulduğunuz eşyayı aşağıdaki formu doldurarak paylaşın.</p>
+
+    <!-- İlan Tipi Seçimi -->
+    <div class="form-group">
+      <label>İlan Kategorisi <span class="required">*</span></label>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <label style="flex:1;min-width:140px;cursor:pointer">
+          <input type="radio" name="category" value="kayıp" id="catKayip" checked style="display:none">
+          <div class="category-option" id="optKayip" style="border:2px solid var(--danger);background:var(--danger-light);padding:18px 16px;border-radius:var(--radius-sm);text-align:center;transition:var(--transition)">
+            <div style="font-weight:700;color:var(--danger);margin-bottom:4px">Kayıp</div>
+            <div style="font-size:.78rem;color:var(--text-muted)">Bir şey kaybettim</div>
+          </div>
+        </label>
+        <label style="flex:1;min-width:140px;cursor:pointer">
+          <input type="radio" name="category" value="buluntu" id="catBuluntu" style="display:none">
+          <div class="category-option" id="optBuluntu" style="border:2px solid var(--border);padding:18px 16px;border-radius:var(--radius-sm);text-align:center;transition:var(--transition)">
+            <div style="font-weight:700;color:var(--primary);margin-bottom:4px">Buluntu</div>
+            <div style="font-size:.78rem;color:var(--text-muted)">Bir şey buldum</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Başlık -->
+    <div class="form-group">
+      <label for="title">Başlık <span class="required">*</span></label>
+      <input type="text" id="title" class="form-control" placeholder="Örn: Siyah deri cüzdan kaybettim" maxlength="100">
+      <small style="color:var(--text-muted);font-size:.78rem">Maksimum 100 karakter</small>
+    </div>
+
+    <!-- Açıklama -->
+    <div class="form-group">
+      <label for="description">Açıklama <span class="required">*</span></label>
+      <textarea id="description" class="form-control" rows="4" placeholder="Eşyanızı detaylıca tanımlayın. Rengi, markası, içindekiler gibi özelliklerini belirtin."></textarea>
+    </div>
+
+    <!-- Konum -->
+    <div class="form-group">
+      <label for="location">Kayıp/Bulunma Yeri <span class="required">*</span></label>
+      <input type="text" id="location" class="form-control" placeholder="Örn: Atatürk Caddesi, Merkez Park yakını">
+    </div>
+
+    <!-- Fotoğraf -->
+    <div class="form-group">
+      <label>Fotoğraf</label>
+      <div class="file-input-wrapper">
+        <input type="file" id="imageFile" accept="image/*" onchange="previewImage(this)">
+        <div class="file-input-label">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px;color:var(--text-muted)"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <div><span>Tıklayın</span> veya fotoğraf sürükleyin</div>
+          <div style="font-size:.75rem;margin-top:4px">JPG, PNG, WEBP — Maks. 5 MB</div>
+        </div>
+      </div>
+      <div id="filePreview" style="display:none"></div>
+    </div>
+
+    <!-- Hata mesajı -->
+    <div id="formError" class="alert alert-danger" style="display:none"></div>
+    <div id="formSuccess" class="alert alert-success" style="display:none"></div>
+
+    <!-- Yükleme ilerleme çubuğu -->
+    <div id="uploadProgress" style="display:none;margin-bottom:16px">
+      <div style="font-size:.875rem;color:var(--text-muted);margin-bottom:8px">Fotoğraf yükleniyor...</div>
+      <div style="background:var(--border);border-radius:20px;height:6px;overflow:hidden">
+        <div id="progressBar" style="background:var(--primary);height:100%;width:0%;transition:width .3s ease;border-radius:20px"></div>
+      </div>
+    </div>
+
+    <!-- Butonlar -->
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-primary btn-lg" id="submitBtn" onclick="handleSubmit()">İlanı Yayınla →</button>
+      <a href="list.html" class="btn btn-secondary btn-lg">Vazgeç</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Kayıp &amp; Buluntu</strong> &copy; 2024
+</footer>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script src="../js/items.js"></script>
+<script src="../js/auth.js"></script>
+
+<script>
+  // Sayfa yüklenince giriş kontrolü
+  requireAuth();
+
+  // Kategori toggle
+  document.querySelectorAll('input[name="category"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      const isKayip = document.getElementById("catKayip").checked;
+      const optKayip = document.getElementById("optKayip");
+      const optBuluntu = document.getElementById("optBuluntu");
+
+      if (isKayip) {
+        optKayip.style.border = "2px solid var(--danger)";
+        optKayip.style.background = "var(--danger-light)";
+        optBuluntu.style.border = "2px solid var(--border)";
+        optBuluntu.style.background = "";
+      } else {
+        optBuluntu.style.border = "2px solid var(--primary)";
+        optBuluntu.style.background = "var(--primary-light)";
+        optKayip.style.border = "2px solid var(--border)";
+        optKayip.style.background = "";
+      }
+    });
+  });
+
+  // Fotoğraf önizleme
+  function previewImage(input) {
+    const preview = document.getElementById("filePreview");
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Boyut kontrolü (5 MB)
+      if (file.size > 5 * 1024 * 1024) {
+        const errDiv = document.getElementById("formError");
+        errDiv.textContent = "Fotoğraf boyutu 5 MB'dan büyük olamaz.";
+        errDiv.style.display = "block";
+        input.value = "";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.style.display = "block";
+        preview.innerHTML = `<img src="${e.target.result}" alt="Önizleme" style="max-height:200px;width:100%;object-fit:cover;border-radius:var(--radius-sm)">`;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Form gönderme
+  async function handleSubmit() {
+    const title = document.getElementById("title").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const location = document.getElementById("location").value.trim();
+    const category = document.querySelector('input[name="category"]:checked').value;
+    const imageFile = document.getElementById("imageFile").files[0];
+    const errDiv = document.getElementById("formError");
+    const successDiv = document.getElementById("formSuccess");
+    const btn = document.getElementById("submitBtn");
+
+    errDiv.style.display = "none";
+    successDiv.style.display = "none";
+
+    // Validasyon
+    if (!title) { errDiv.textContent = "Lütfen bir başlık girin."; errDiv.style.display = "block"; return; }
+    if (!description) { errDiv.textContent = "Lütfen bir açıklama girin."; errDiv.style.display = "block"; return; }
+    if (!location) { errDiv.textContent = "Lütfen konum bilgisi girin."; errDiv.style.display = "block"; return; }
+
+    btn.disabled = true;
+    btn.textContent = "Yayınlanıyor...";
+
+    // Yükleme çubuğu göster
+    if (imageFile) {
+      document.getElementById("uploadProgress").style.display = "block";
+    }
+
+    try {
+      const result = await addItem({ title, description, category, location }, imageFile);
+
+      successDiv.textContent = "İlanınız başarıyla yayınlandı! Yönlendiriliyorsunuz...";
+      successDiv.style.display = "block";
+
+      setTimeout(() => {
+        window.location.href = `detail.html?id=${result.id}`;
+      }, 1500);
+
+    } catch (error) {
+      errDiv.textContent = error.message;
+      errDiv.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "İlanı Yayınla →";
+      document.getElementById("uploadProgress").style.display = "none";
+    }
+  }
+</script>
+</body>
+</html>

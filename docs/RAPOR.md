@@ -1,0 +1,123 @@
+# Uni_Lost — Proje Raporu
+
+**Ders:** Web Programlama
+**Dönem:** 2026 Bahar
+**Teslim Tarihi:** 18.05.2026
+**Grup Üyeleri:** [İsim 1], [İsim 2], [İsim 3]
+
+## 1. Proje Konusu ve Amacı
+
+Uni_Lost, üniversite ortamında kaybedilen ve bulunan eşyaların takip edilmesini sağlayan web tabanlı bir platformdur. Kampüslerde her gün bir şey kaybedilir veya bulunur; sosyal medya grupları bu işi yapar ama dağınık, arama yok, eşleştirme yok. Bu proje, kayıp ve buluntu ilanlarını tek bir yerde toplayarak sahibine ulaştırma sürecini hızlandırmayı amaçlar.
+
+## 2. Hedef Kullanıcı
+
+Birincil hedef kullanıcı, üniversite öğrencileridir. Eşyasını kaybeden veya kampüste bir eşya bulan herkes platforma kayıt olarak ilan açabilir. İkincil kullanıcı grubu, kafeterya/kütüphane gibi ortak kullanım alanlarındaki personeldir. Yönetici rolü, içeriği denetleyen kişilere atanır.
+
+## 3. Temel Özellikler
+
+- E-posta/şifre ile kayıt ve giriş.
+- Kayıp veya buluntu kategorisinde ilan oluşturma, fotoğraf yükleme.
+- Başlık, açıklama ve konum üzerinde anlık arama.
+- Kategori ve durum (açık / talep var / çözüldü) bazlı filtreleme.
+- Tarih sıralaması (en yeni / en eski).
+- "Bu benim!" talep sistemi: ilanı gören başka bir kullanıcı, ispat mesajıyla talep gönderir.
+- İlan sahibinin gelen talepleri onaylama veya reddetme yetkisi. Talep onaylandığında ilan otomatik "çözüldü" olur, diğer bekleyen talepler reddedilir.
+- Admin paneli: tüm ilanları, talepleri ve kullanıcıları görüntüleme ve yönetme. Kullanıcı rolünü `user` ↔ `admin` arasında değiştirme.
+- İlan/talep durumları için renkli rozetler.
+
+## 4. Kullanılan Teknolojiler
+
+| Katman | Teknoloji | Gerekçe |
+|--------|-----------|---------|
+| Arayüz | HTML5, CSS3 (custom properties), vanilla JS | Bağımsızlık, build adımı yok, hızlı geliştirme |
+| Kimlik Doğrulama | Firebase Authentication | E-posta/şifre akışı için yerleşik destek, güvenli token yönetimi |
+| Veritabanı | Cloud Firestore (NoSQL) | Esnek belge yapısı, gerçek zamanlı sorgu desteği, ücretsiz katman |
+| Dosya Depolama | Firebase Storage | Fotoğrafları kullanıcı kimliğine bağlı saklama, CDN tabanlı sunum |
+| Hosting | [seçtiğiniz hosting — Firebase Hosting / Netlify / GitHub Pages] | [...] |
+
+**Not:** Backend olarak BaaS (Backend as a Service) yaklaşımı seçilmiştir. Bu kararın gerekçesi, üç kişilik bir ekibin sınırlı sürede çalışan, ölçeklenebilir ve güvenli bir sistem teslim edebilmesidir. Sunucu yönetimi, oturum kontrolü ve veritabanı altyapısı Firebase tarafına devredilmiş; ekip yalnızca uygulama mantığına ve arayüze odaklanmıştır.
+
+## 5. Veritabanı Yapısı
+
+Cloud Firestore üç koleksiyon kullanır:
+
+### `users` koleksiyonu
+
+| Alan | Tip | Açıklama |
+|------|-----|----------|
+| `email` | string | Kullanıcı e-postası |
+| `displayName` | string | Görünen ad |
+| `role` | string | `"user"` veya `"admin"` |
+| `createdAt` | timestamp | Kayıt zamanı |
+
+Belge ID'si Firebase Auth UID'sidir.
+
+### `items` koleksiyonu
+
+| Alan | Tip | Açıklama |
+|------|-----|----------|
+| `title` | string | İlan başlığı |
+| `description` | string | Eşya açıklaması |
+| `category` | string | `"kayıp"` veya `"buluntu"` |
+| `location` | string | Kayıp/bulunma yeri |
+| `date` | timestamp | Eklenme tarihi |
+| `status` | string | `"açık"` / `"talep var"` / `"çözüldü"` |
+| `imageUrl` | string | Storage'daki fotoğraf URL'si |
+| `userId` | string | İlanı ekleyenin UID'si |
+| `userEmail` | string | İlanı ekleyenin e-postası |
+
+### `claims` koleksiyonu
+
+| Alan | Tip | Açıklama |
+|------|-----|----------|
+| `itemId` | string | Talep edilen ilan ID'si |
+| `claimantId` | string | Talep eden kullanıcı UID'si |
+| `claimantEmail` | string | Talep eden e-postası |
+| `message` | string | İspat mesajı |
+| `status` | string | `"bekliyor"` / `"onaylandı"` / `"reddedildi"` |
+| `createdAt` | timestamp | Talep zamanı |
+
+**Güvenlik:** Firestore Security Rules ile her koleksiyon için ayrı erişim kuralları tanımlanmıştır. Bir kullanıcı sadece kendi ilanını güncelleyebilir veya silebilir; talepler yalnızca giriş yapmış kullanıcılar tarafından okunabilir ve yazılabilir.
+
+## 6. Özgün Özellikler
+
+1. **"Bu benim!" talep sistemi:** Sade bir e-posta paylaşımı yerine, yapılandırılmış bir talep akışı sunulur. Talepçi ispat mesajı yazar, ilan sahibi onaylar veya reddeder. Onaylanan talep, diğer bekleyen talepleri otomatik reddeder ve ilanı "çözüldü" olarak işaretler. Bu, çoklu talep senaryosunda veri tutarlılığını korur.
+
+2. **[İkinci özgün özellik — eklenecek]**
+   *Öneri seçenekleri:*
+   - Konuma göre yakınlık eşleşmesi (kayıp ve buluntu aynı konum civarındaysa kullanıcıya bildirim).
+   - İlan otomatik kapanma (X gün boyunca aktivite yoksa "süresi doldu" durumuna geç).
+   - Kullanıcı profil sayfası (kendi ilanlarımı ve taleplerimi tek yerden gör).
+   - QR kod üretici (her ilan için karta basılabilen QR).
+   - [...]
+
+## 7. Yapay Zeka Kullanım Açıklaması
+
+Projenin geliştirilmesi sırasında yapay zeka asistanından şu amaçlarla yararlanılmıştır:
+
+- **Doğrudan kullanılan çıktılar:** [örn. CSS değişken yapısının iskeleti, Türkçe Firebase hata mesajları sözlüğü, README iskeleti]
+- **Tartışma ve danışma amaçlı kullanımlar:** [örn. Firestore veri modeli kararları, talep akışının state machine olarak tasarlanması, dosya yapısı düzeni]
+- **Tamamen ekip tarafından geliştirilen kısımlar:** [örn. ilan kartı tasarımı, kategori seçim mantığı, talep onay/red akışının ilanı çözüldü işaretlemesi]
+
+Yapay zeka çıktılarının tamamı ekip üyeleri tarafından okunmuş, anlaşılmış ve gerektiğinde değiştirilmiştir. Hiçbir kod parçası "anlamadan" projeye eklenmemiştir.
+
+## 8. Grup Üyelerinin Katkıları
+
+Detaylar `docs/KATKI_BEYANI.md` dosyasındadır. Özet:
+
+- **[İsim 1]:** [Sorumlu olduğu modüller — örn. Auth, kullanıcı yönetimi, admin paneli]
+- **[İsim 2]:** [Sorumlu olduğu modüller — örn. İlan CRUD, talep sistemi, veritabanı tasarımı]
+- **[İsim 3]:** [Sorumlu olduğu modüller — örn. Arayüz tasarımı, CSS, arama/filtreleme]
+
+## 9. Bilinen Sınırlamalar
+
+Burada projenin zayıf yönlerini açıkça söylemek, savunmada güçlü bir tutum sağlar:
+
+- Şifre sıfırlama akışı henüz yok.
+- Firestore composite index'leri client-side filtreleme ile aşılmıştır; ilan sayısı çok arttığında bu yaklaşım yetersiz kalır.
+- Fotoğraf yükleme öncesi sıkıştırma yapılmıyor; 5 MB sınırı ile koruma sağlanıyor.
+- Mobil deneyim test edilmiş ancak iOS Safari'de [...] gibi küçük farklar olabilir.
+
+## 10. Sonuç
+
+Uni_Lost, üç kişilik bir ekibin sınırlı sürede çalışan, savunulabilir ve gerçek bir probleme çözüm üreten bir web uygulaması teslim etmesinin somut bir örneğidir. BaaS yaklaşımıyla altyapı maliyeti minimize edilmiş, ekip uygulama mantığına odaklanmıştır.

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kayıp & Buluntu — Eşyanızı Geri Kazanın</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html">UniLost</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="pages/list.html">İlanlar</a></li>
+      <li><a href="pages/add.html" id="addItemBtn" style="display:none" class="btn btn-primary">+ İlan Ekle</a></li>
+      <li><a href="pages/admin.html" id="adminBtn" style="display:none">Admin</a></li>
+      <li><span id="userInfo"></span></li>
+      <li><a href="#" id="loginBtn" onclick="openModal('login')">Giriş Yap</a></li>
+      <li><a href="#" id="registerBtn" onclick="openModal('register')" class="btn btn-outline">Kayıt Ol</a></li>
+      <li><button id="logoutBtn" style="display:none" class="btn btn-secondary">Çıkış Yap</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Kaybettiniz mi? Bir şey mi Buldunuz?</h1>
+    <p>Kayıp eşyanızı ilan olarak paylaşın ya da bulduğunuz eşyanın sahibini burada bulun. Topluluk gücüyle eşyalar sahiplerine kavuşsun.</p>
+    <div class="hero-actions">
+      <a href="pages/add.html" class="btn btn-primary">Kayıp İlanı Ver</a>
+      <a href="pages/list.html" class="btn btn-secondary">Tüm İlanlar</a>
+    </div>
+  </div>
+</section>
+
+<!-- SON İLANLAR -->
+<section style="padding: 64px 0;">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Son Eklenen İlanlar</h2>
+        <p class="section-subtitle">Topluluğun en son paylaşımları</p>
+      </div>
+      <a href="pages/list.html" class="btn btn-secondary">Tümünü Gör →</a>
+    </div>
+    <div class="cards-grid" id="recentItems">
+      <div class="spinner"></div>
+    </div>
+  </div>
+</section>
+
+<!-- NASIL CALISIR -->
+<section style="background: var(--surface); padding: 64px 0; border-top: 1px solid var(--border);">
+  <div class="container">
+    <h2 class="section-title text-center" style="margin-bottom:8px">Nasıl Çalışır?</h2>
+    <p class="text-center text-muted" style="margin-bottom:48px">Üç basit adımda eşyanızı geri kazanın</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;max-width:900px;margin:0 auto;">
+      <div style="text-align:center;padding:24px;">
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <h3 style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;">İlan Ver</h3>
+        <p style="color:var(--text-muted);font-size:.9rem;">Kaybettiğiniz ya da bulduğunuz eşyayı fotoğrafıyla birlikte paylaşın.</p>
+      </div>
+      <div style="text-align:center;padding:24px;">
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3 style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;">Arayın</h3>
+        <p style="color:var(--text-muted);font-size:.9rem;">İlanlar arasında arama yapın, kategori ve durum filtrelerini kullanın.</p>
+      </div>
+      <div style="text-align:center;padding:24px;">
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;">Buluşun</h3>
+        <p style="color:var(--text-muted);font-size:.9rem;">"Bu benim!" butonuyla talep oluşturun, ilan sahibiyle iletişime geçin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GİRİŞ / KAYIT MODALI -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="tab-links">
+      <button class="tab-link active" onclick="switchTab('login')">Giriş Yap</button>
+      <button class="tab-link" onclick="switchTab('register')">Kayıt Ol</button>
+    </div>
+
+    <!-- Giriş Formu -->
+    <div class="tab-pane active" id="loginPane">
+      <div class="form-group">
+        <label for="loginEmail">E-posta <span class="required">*</span></label>
+        <input type="email" id="loginEmail" class="form-control" placeholder="ornek@email.com">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Şifre <span class="required">*</span></label>
+        <input type="password" id="loginPassword" class="form-control" placeholder="Şifrenizi girin">
+      </div>
+      <div id="loginError" class="alert alert-danger" style="display:none"></div>
+      <button class="btn btn-primary btn-block" id="loginSubmitBtn" onclick="handleLogin()">Giriş Yap</button>
+    </div>
+
+    <!-- Kayıt Formu -->
+    <div class="tab-pane" id="registerPane">
+      <div class="form-group">
+        <label for="regName">Ad Soyad <span class="required">*</span></label>
+        <input type="text" id="regName" class="form-control" placeholder="Adınız Soyadınız">
+      </div>
+      <div class="form-group">
+        <label for="regEmail">E-posta <span class="required">*</span></label>
+        <input type="email" id="regEmail" class="form-control" placeholder="ornek@email.com">
+      </div>
+      <div class="form-group">
+        <label for="regPassword">Şifre <span class="required">*</span></label>
+        <input type="password" id="regPassword" class="form-control" placeholder="En az 6 karakter">
+      </div>
+      <div id="registerError" class="alert alert-danger" style="display:none"></div>
+      <button class="btn btn-primary btn-block" id="registerSubmitBtn" onclick="handleRegister()">Kayıt Ol</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Kayıp &amp; Buluntu</strong> &copy; 2024 — Topluluk destekli kayıp eşya platformu
+</footer>
+
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/items.js"></script>
+<script src="js/auth.js"></script>
+
+<script>
+  // Son 6 ilanı yükle
+  async function loadRecentItems() {
+    try {
+      const items = await getItems({ limit: 6, sort: "en yeni" });
+      const grid = document.getElementById("recentItems");
+      if (items.length === 0) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><p>Henüz ilan eklenmemiş.</p></div>';
+        return;
+      }
+      grid.innerHTML = items.map(item => createItemCard(item)).join("");
+    } catch (error) {
+      document.getElementById("recentItems").innerHTML =
+        `<div class="alert alert-danger" style="grid-column:1/-1">${error.message}</div>`;
+    }
+  }
+  loadRecentItems();
+
+  // Modal işlemleri
+  function openModal(tab = 'login') {
+    document.getElementById("authModal").classList.add("open");
+    switchTab(tab);
+  }
+  function closeModal() {
+    document.getElementById("authModal").classList.remove("open");
+  }
+  function switchTab(tab) {
+    document.querySelectorAll(".tab-link").forEach((el, i) => {
+      el.classList.toggle("active", (tab === "login" && i === 0) || (tab === "register" && i === 1));
+    });
+    document.getElementById("loginPane").classList.toggle("active", tab === "login");
+    document.getElementById("registerPane").classList.toggle("active", tab === "register");
+  }
+
+  // Modal dışına tıklayınca kapat
+  document.getElementById("authModal").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("authModal")) closeModal();
+  });
+
+  // Giriş işlemi
+  async function handleLogin() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const errDiv = document.getElementById("loginError");
+    const btn = document.getElementById("loginSubmitBtn");
+
+    errDiv.style.display = "none";
+    if (!email || !password) { errDiv.textContent = "Lütfen tüm alanları doldurun."; errDiv.style.display = "block"; return; }
+
+    btn.disabled = true;
+    btn.textContent = "Giriş yapılıyor...";
+
+    try {
+      await loginUser(email, password);
+      closeModal();
+    } catch (error) {
+      errDiv.textContent = error.message;
+      errDiv.style.display = "block";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Giriş Yap";
+    }
+  }
+
+  // Kayıt işlemi
+  async function handleRegister() {
+    const name = document.getElementById("regName").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const password = document.getElementById("regPassword").value;
+    const errDiv = document.getElementById("registerError");
+    const btn = document.getElementById("registerSubmitBtn");
+
+    errDiv.style.display = "none";
+    if (!name || !email || !password) { errDiv.textContent = "Lütfen tüm alanları doldurun."; errDiv.style.display = "block"; return; }
+
+    btn.disabled = true;
+    btn.textContent = "Kaydediliyor...";
+
+    try {
+      await registerUser(email, password, name);
+      closeModal();
+    } catch (error) {
+      errDiv.textContent = error.message;
+      errDiv.style.display = "block";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Kayıt Ol";
+    }
+  }
+
+  // Enter tuşuyla giriş
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const loginPane = document.getElementById("loginPane");
+      const registerPane = document.getElementById("registerPane");
+      if (loginPane.classList.contains("active")) handleLogin();
+      else if (registerPane.classList.contains("active")) handleRegister();
+    }
+  });
+</script>
+</body>
+</html>

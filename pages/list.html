@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İlan Listesi — Kayıp & Buluntu</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="../index.html">UniLost</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="list.html" style="color:var(--primary);font-weight:700">İlanlar</a></li>
+      <li><a href="add.html" id="addItemBtn" style="display:none" class="btn btn-primary">+ İlan Ekle</a></li>
+      <li><a href="admin.html" id="adminBtn" style="display:none">Admin</a></li>
+      <li><span id="userInfo"></span></li>
+      <li><a href="../index.html" id="loginBtn" style="display:none">Giriş Yap</a></li>
+      <li><a href="../index.html" id="registerBtn" style="display:none">Kayıt Ol</a></li>
+      <li><button id="logoutBtn" style="display:none" class="btn btn-secondary">Çıkış Yap</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-content">
+
+  <!-- Sayfa Başlığı -->
+  <div style="margin-bottom:28px">
+    <h1 class="section-title" style="font-family:var(--font-display);font-size:2rem;font-weight:800">Tüm İlanlar</h1>
+    <p class="text-muted">Kayıp ve buluntu eşyaları listeleyin, filtreleyin ve arayın.</p>
+  </div>
+
+  <!-- Arama ve Filtre Alanı -->
+  <div class="search-bar">
+    <div class="search-group" style="flex:2;min-width:240px">
+      <label for="searchInput">Arama</label>
+      <input type="search" id="searchInput" class="form-control" placeholder="Başlık, açıklama veya konum ara...">
+    </div>
+    <div class="search-group">
+      <label for="categoryFilter">Kategori</label>
+      <select id="categoryFilter" class="form-control">
+        <option value="hepsi">Hepsi</option>
+        <option value="kayıp">Kayıp</option>
+        <option value="buluntu">Buluntu</option>
+      </select>
+    </div>
+    <div class="search-group">
+      <label for="statusFilter">Durum</label>
+      <select id="statusFilter" class="form-control">
+        <option value="hepsi">Hepsi</option>
+        <option value="açık">Açık</option>
+        <option value="talep var">Talep Var</option>
+        <option value="çözüldü">Çözüldü</option>
+      </select>
+    </div>
+    <div class="search-group">
+      <label for="sortFilter">Sıralama</label>
+      <select id="sortFilter" class="form-control">
+        <option value="en yeni">En Yeni</option>
+        <option value="en eski">En Eski</option>
+      </select>
+    </div>
+    <div style="align-self:flex-end">
+      <button id="resetFilters" class="btn btn-secondary">Sıfırla</button>
+    </div>
+  </div>
+
+  <!-- Sonuç sayısı -->
+  <p class="result-count" id="resultCount">Yükleniyor...</p>
+
+  <!-- İlan Grid -->
+  <div class="cards-grid" id="itemsGrid">
+    <div class="spinner" style="grid-column:1/-1"></div>
+  </div>
+
+  <!-- İlan ekle CTA -->
+  <div style="text-align:center;margin-top:48px;padding:40px;background:var(--primary-light);border-radius:var(--radius-lg);border:1px solid var(--primary);">
+    <h3 style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;color:var(--primary)">Eşyanızı bulamadınız mı?</h3>
+    <p style="color:var(--text-muted);margin-bottom:20px;font-size:.9rem">Hemen ilan verin, topluluğumuz size yardımcı olsun.</p>
+    <a href="add.html" class="btn btn-primary">+ Yeni İlan Ekle</a>
+  </div>
+</div>
+
+<footer>
+  <strong>Kayıp &amp; Buluntu</strong> &copy; 2024
+</footer>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script src="../js/items.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/search.js"></script>
+
+<script>
+  // Sayfa yüklenince ilanları getir ve filtreleri başlat
+  document.addEventListener("DOMContentLoaded", () => {
+    loadAndDisplayItems();
+    initSearchAndFilters();
+  });
+</script>
+</body>
+</html>
