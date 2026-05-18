@@ -2,9 +2,6 @@
 
 A web-based platform for tracking lost and found items on a university campus. Developed as the 2026 Spring semester project for the Web Programming course at Atatürk University.
 
-## Development Team
-
-3-person project. For individual contributions, see: `docs/CONTRIBUTION_STATEMENT.md`.
 
 ## Technology Stack
 
