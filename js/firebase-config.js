@@ -1,15 +1,6 @@
 // Firebase yapılandırma dosyası
 // Gerçek değerleri Firebase Console'dan alıp buraya yapıştırın
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCEQy0m7NcNIilWADq4ZF9kZ0-kY7iITuk",
-  authDomain: "kayip-esya-bf208.firebaseapp.com",
-  projectId: "kayip-esya-bf208",
-  storageBucket: "kayip-esya-bf208.firebasestorage.app",
-  messagingSenderId: "337892570752",
-  appId: "1:337892570752:web:53a9dc659b4c8f498a5865",
-  measurementId: "G-W4149NGV2W"
-};
 
 // Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
